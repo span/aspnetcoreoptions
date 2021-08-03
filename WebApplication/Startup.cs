@@ -35,6 +35,9 @@ namespace WebApplication
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddInMemoryTokenCaches();
 
+            services.AddHttpClient(nameof(AuthorizationHealthCheck))
+                .AddHttpMessageHandler<BearerHttpMessageHandler>();
+
             services.AddMvc(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -50,6 +53,9 @@ namespace WebApplication
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication", Version = "v1" });
             });
+            
+            services.AddHealthChecks()
+                .AddCheck<AuthorizationHealthCheck>(nameof(AuthorizationHealthCheck));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +75,11 @@ namespace WebApplication
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health/startup");
+            });
         }
     }
 }

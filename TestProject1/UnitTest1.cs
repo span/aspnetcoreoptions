@@ -34,7 +34,7 @@ namespace TestProject1
             var handler = scope.ServiceProvider.GetRequiredService<BearerHttpMessageHandler>();
             var client = _factory.CreateDefaultClient(handler);
 
-            var response = await client.GetAsync("WeatherForecast");
+            var response = await client.GetAsync("https://localhost:5001/weatherforecast");
             response.EnsureSuccessStatusCode();
         }
     }

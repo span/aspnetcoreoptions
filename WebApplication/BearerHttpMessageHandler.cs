@@ -18,7 +18,7 @@ namespace WebApplication
 
         public BearerHttpMessageHandler(ITokenAcquisition tokenAcquisition, IConfiguration configuration)
         {
-            this.scope = "api://scope/.default";
+            this.scope = configuration["Scope"];
             this.tokenAcquisition = tokenAcquisition;
         }
 
