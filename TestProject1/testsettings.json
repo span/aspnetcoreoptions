@@ -4,5 +4,6 @@
     "TenantId": "",
     "ClientId": "",
     "ClientSecret": ""
-  }
+  },
+  "Scope": ""
 }
